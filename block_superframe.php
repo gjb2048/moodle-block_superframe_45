@@ -72,8 +72,8 @@ class block_superframe extends block_base {
         // OK let's add some content.
         $this->content = new stdClass();
         $this->content->footer = '';
-        $this->content->text = get_string('welcomeuser', 'block_superframe',
-                $USER);
+        $this->content->text = get_string('welcomeuser', 'block_superframe', $USER);
+        $this->content->text .= '<br>'.get_string('message', 'block_superframe');
 
         return $this->content;
     }
@@ -83,11 +83,13 @@ class block_superframe extends block_base {
      * may not be added.
      */
     public function applicable_formats() {
-        return array('all' => false,
-                     'site' => true,
-                     'site-index' => true,
-                     'course-view' => true,
-                     'my' => true);
+        return [
+            'all' => false,
+            'site' => true,
+            'site-index' => true,
+            'course-view' => true,
+            'my' => true,
+        ];
     }
 
     /**
