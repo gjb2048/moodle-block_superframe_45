@@ -1,6 +1,10 @@
 Changes
 =======
 
+V405.1.1
+---------
+1. End of week 2.
+
 V405.1.0
 ---------
 1. Moodle 4.5 version.
