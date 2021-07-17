@@ -28,6 +28,8 @@
     * text the view page link text.
     * hasstudents - If the students array is not empty.
     * students - an array of student names.
+    * popurl the link to the block data page (block_data page).
+    * poptext the block data page link text.
 
     Example context (json):
     {
@@ -35,7 +37,9 @@
         "url": "http://www.moodlebites.com",
         "text": "view page link",
         "hasstudents": true,
-        "students": ["A Student", "Another Student"]
+        "students": ["A Student", "Another Student"],
+        "popurl": "#",
+        "poptext": "Block summary"
     }
 }}
 
@@ -44,6 +48,7 @@
     {{#url}}
     <a href="{{{url}}}">{{text}}</a>
     {{/url}}
+    <a href="{{{popurl}}}" target="_blank" class="d-block">{{poptext}}</a>
     {{#hasstudents}}
     <ul class="list-group ml-0 mt-2">
         {{#students}}
