@@ -12,7 +12,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Moodle.  If not, see http://www.gnu.org/licenses/.
+    along with Moodle.  If not, see https://www.gnu.org/licenses/.
 }}
 
 {{!
@@ -39,16 +39,17 @@
     {
         "fullname": "Denise Emma Bug",
         "heading": "My superframe",
-        "url": "http://www.moodlebites.com",
+        "url": "https://www.moodlebites.com",
         "height": "400",
         "width": "600",
-        "returnlink": "http://www.moodlebites.com/course/view.php?id=2"
+        "returnlink": "https://www.moodlebites.com/course/view.php?id=2"
     }
 }}
 
 <div class="container">
     <p>{{fullname}}</p>
     <h5>{{heading}}</h5>
+    {{> block_superframe/links}}
     <iframe src="{{url}}" height="{{height}}" width="{{width}}"></iframe>
     <p><a href="{{{returnlink}}}">{{#str}}returncourse, block_superframe{{/str}}</a></p>
 </div>

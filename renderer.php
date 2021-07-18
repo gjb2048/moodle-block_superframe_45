@@ -19,11 +19,14 @@
  * @package    block_superframe
  * @copyright  Daniel Neis <danielneis@gmail.com>
  * Modified for use in MoodleBites for Developers Level 1 by Richard Jones & Justin Hunt
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+use core\url;
+
 class block_superframe_renderer extends plugin_renderer_base {
 
-    public function display_view_page($url, $width, $height, $courseid) {
+    public function display_view_page($url, $width, $height, $courseid, $blockid) {
         global $USER;
 
         $data = new stdClass();
@@ -37,7 +40,25 @@ class block_superframe_renderer extends plugin_renderer_base {
         // Add the user data.
         $data->fullname = fullname($USER);
 
-        $data->returnlink = new moodle_url('/course/view.php', ['id' => $courseid]);
+        $data->returnlink = new url('/course/view.php', ['id' => $courseid]);
+
+        // Text for the links and the size parameter.
+        $strings = [];
+        $strings['custom'] = get_string('custom', 'block_superframe');
+        $strings['small'] = get_string('small', 'block_superframe');
+        $strings['medium'] = get_string('medium', 'block_superframe');
+        $strings['large'] = get_string('large', 'block_superframe');
+
+        // Create the data structure for the links.
+        $links = [];
+        $link = new url('/blocks/superframe/view.php', ['courseid' => $courseid,
+            'blockid' => $blockid]);
+
+        foreach ($strings as $key => $string) {
+            $links[] = ['link' => $link->out(false, ['size' => $key]), 'text' => $string];
+        }
+
+        $data->linkdata = $links;
 
         // Start output to browser.
         echo $this->output->header();
@@ -59,21 +80,21 @@ class block_superframe_renderer extends plugin_renderer_base {
 
         // Check the capability.
         if (has_capability('block/superframe:seeviewpagelink', $context)) {
-            $data->url = new moodle_url('/blocks/superframe/view.php', ['blockid' => $blockid, 'courseid' => $courseid]);
+            $data->url = new url('/blocks/superframe/view.php', ['blockid' => $blockid, 'courseid' => $courseid]);
             $data->text = get_string('viewlink', 'block_superframe');
         }
 
         // Add a link to the popup page.
-        $data->popurl = new moodle_url('/blocks/superframe/block_data.php');
+        $data->popurl = new url('/blocks/superframe/block_data.php');
         $data->poptext = get_string('poptext', 'block_superframe');
 
         // Add a link to the table manager page.
-        // With course id '$data->tableurl = new moodle_url('/blocks/superframe/tablemanager.php', ['courseid' => $courseid]);'.
-        $data->tableurl = new moodle_url('/blocks/superframe/tablemanager.php');
+        // With course id '$data->tableurl = new url('/blocks/superframe/tablemanager.php', ['courseid' => $courseid]);'.
+        $data->tableurl = new url('/blocks/superframe/tablemanager.php');
         $data->tabletext = get_string('tabletext', 'block_superframe');
 
         // List of course students.
-        $data->students = array();
+        $data->students = [];
         $users = self::get_course_users($courseid);
         foreach ($users as $user) {
             $data->students[] = ''.$user->lastname.', '.$user->firstname;
@@ -122,7 +143,7 @@ class block_superframe_renderer extends plugin_renderer_base {
 
         // Build the data rows.
         foreach ($records as $record) {
-            $data = array();
+            $data = [];
             $data[] = $record->id;
             $data[] = $record->blockname;
             $data[] = $record->shortname;

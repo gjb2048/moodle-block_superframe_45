@@ -20,12 +20,13 @@
  * @package    block_superframe
  * @copyright  Daniel Neis <danielneis@gmail.com>
  * Modified for use in MoodleBites for Developers Level 1 by Richard Jones & Justin Hunt
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require('../../config.php');
 $blockid = required_param('blockid', PARAM_INT);
 $courseid = required_param('courseid', PARAM_INT);
+$size = optional_param('size', 'none', PARAM_TEXT);
 $defconfig = get_config('block_superframe');
 
 if ($courseid == $SITE->id) {
@@ -62,11 +63,17 @@ if ($configdata) {
     $config->size = 'custom';
 }
 
+// Check the size optional parameter.
+if ($size == 'none') {
+    // First visit to page, use config.
+    $size = $config->size;
+}
+
 // URL - comes either from instance or admin.
 $url = $config->url;
 
 // Let's set up the iframe attributes.
-switch ($config->size) {
+switch ($size) {
     case 'custom':
         $width = $defconfig->width;
         $height = $defconfig->height;
@@ -86,4 +93,4 @@ switch ($config->size) {
 }
 
 $renderer = $PAGE->get_renderer('block_superframe');
-$renderer->display_view_page($url, $width, $height, $courseid);
+$renderer->display_view_page($url, $width, $height, $courseid, $blockid);
