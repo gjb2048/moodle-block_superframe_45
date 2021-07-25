@@ -81,7 +81,7 @@ class block_superframe_renderer extends plugin_renderer_base {
     }
 
     public function fetch_block_content($blockid, $courseid) {
-        global $USER;
+        global $DB, $SITE, $USER;
 
         $data = new stdClass();
 
@@ -106,6 +106,13 @@ class block_superframe_renderer extends plugin_renderer_base {
         // With course id '$data->tableurl = new url('/blocks/superframe/tablemanager.php', ['courseid' => $courseid]);'.
         $data->tableurl = new url('/blocks/superframe/tablemanager.php');
         $data->tabletext = get_string('tabletext', 'block_superframe');
+
+        // The users last access time to the course containing the block.
+        if ($courseid != $SITE->id) { // Prevent issue when the block is shown on the view page.
+            // Was using MUST_EXIST, but what if they'd not viewed the course yet or were not enrolled - an error is shown!
+            $data->access = $DB->get_field('user_lastaccess', 'timeaccess', ['courseid' => $courseid,
+                'userid' => $USER->id]);
+        }
 
         // List of course students.
         $data->students = [];
