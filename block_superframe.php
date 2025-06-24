@@ -44,9 +44,7 @@ to register your plugin in the plugins database
 
 /**
  * Class superframe minimal required block class.
- *
  */
-
 class block_superframe extends block_base {
     /**
      * Initialize our block with a language string.
