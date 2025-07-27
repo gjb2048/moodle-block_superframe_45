@@ -68,6 +68,9 @@ class block_superframe_renderer extends plugin_renderer_base {
         foreach ($users as $user) {
             $data->students[] = ''.$user->lastname.', '.$user->firstname;
         }
+        if (!empty($data->students)) {
+            $data->hasstudents = true;
+        }
 
         // Render the data in a Mustache template.
         return $this->render_from_template('block_superframe/block_content', $data);

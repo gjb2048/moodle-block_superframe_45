@@ -26,6 +26,7 @@
     * welcome a welcome message - string.
     * url the link to the block's main content page (view page).
     * text the view page link text.
+    * hasstudents - If the students array is not empty.
     * students - an array of student names.
 
     Example context (json):
@@ -33,6 +34,7 @@
         "welcome": "Welcome user",
         "url": "http://www.moodlebites.com",
         "text": "view page link",
+        "hasstudents": true,
         "students": ["A Student", "Another Student"]
     }
 }}
@@ -42,9 +44,11 @@
     {{#url}}
     <a href="{{{url}}}">{{text}}</a>
     {{/url}}
-    {{#students}}
+    {{#hasstudents}}
     <ul class="list-group ml-0 mt-2">
+        {{#students}}
         <li class="list-group-item list-group-item-warning">{{.}}</li>
+        {{/students}}
     </ul>
-    {{/students}}
+    {{/hasstudents}}
 </div>
