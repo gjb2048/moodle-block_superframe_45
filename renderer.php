@@ -55,7 +55,7 @@ class block_superframe_renderer extends plugin_renderer_base {
             'blockid' => $blockid]);
 
         foreach ($strings as $key => $string) {
-            $links[] = ['link' => $link->out(false, ['size' => $key]), 'text' => $string];
+            $links[] = ['link' => $link->out(true, ['size' => $key]), 'text' => $string];
         }
 
         $data->linkdata = $links;
